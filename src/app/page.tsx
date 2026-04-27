@@ -105,7 +105,7 @@ export default function Home() {
           lineHeight: 1,
           letterSpacing: '-0.01em',
         }}>
-          Pietiri Habibi
+          PiriPiri Habibi
         </h1>
 
         {/* Divider */}

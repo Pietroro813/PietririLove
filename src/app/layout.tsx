@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pietiri Habibi",
+  title: "PiriPiri Habibi",
   description: "26 · 9 · 2026 — Marrakech, Morocco",
 };
 
