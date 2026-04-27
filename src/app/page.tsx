@@ -1,34 +1,36 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Cormorant_Garamond, Montserrat } from 'next/font/google';
+import { Righteous, Boogaloo } from 'next/font/google';
 
-const cormorant = Cormorant_Garamond({
+const righteous = Righteous({
   subsets: ['latin'],
-  weight: ['300', '400', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-cormorant',
+  weight: ['400'],
+  variable: '--font-righteous',
 });
 
-const montserrat = Montserrat({
+const boogaloo = Boogaloo({
   subsets: ['latin'],
-  weight: ['200', '300', '400'],
-  variable: '--font-montserrat',
+  weight: ['400'],
+  variable: '--font-boogaloo',
 });
 
 const TARGET = new Date('2026-09-26T00:00:00');
+const PINK   = '#FF1B8D';
+const BLUE   = '#0A6EFF';
+const YELLOW = '#FFE600';
 
 function pad(n: number) {
   return String(n).padStart(2, '0');
 }
 
-function MoroccanStar({ size = 48, color = '#C9A84C' }: { size?: number; color?: string }) {
+function Starburst({ size = 24, color = YELLOW }: { size?: number; color?: string }) {
   const cx = size / 2;
   const cy = size / 2;
-  const r1 = size * 0.42;
-  const r2 = size * 0.18;
-  const points = Array.from({ length: 16 }, (_, i) => {
-    const angle = (i * Math.PI) / 8 - Math.PI / 2;
+  const r1 = size * 0.5;
+  const r2 = size * 0.21;
+  const points = Array.from({ length: 24 }, (_, i) => {
+    const angle = (i * Math.PI) / 12 - Math.PI / 2;
     const r = i % 2 === 0 ? r1 : r2;
     return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
   }).join(' ');
@@ -64,119 +66,136 @@ export default function Home() {
 
   return (
     <div
-      className={`${cormorant.variable} ${montserrat.variable} relative min-h-screen flex items-center justify-center overflow-hidden`}
-      style={{ background: 'linear-gradient(160deg, #100602 0%, #1c0d04 50%, #100602 100%)' }}
+      className={`${righteous.variable} ${boogaloo.variable} relative min-h-screen flex items-center justify-center overflow-hidden`}
+      style={{ background: '#07050E' }}
     >
-      {/* Double border frame */}
-      <div className="absolute inset-5 pointer-events-none" style={{ border: '1px solid rgba(201,168,76,0.35)' }} />
-      <div className="absolute inset-7 pointer-events-none" style={{ border: '1px solid rgba(201,168,76,0.12)' }} />
+      {/* Soft background glows */}
+      <div className="absolute pointer-events-none" style={{
+        top: '-10%', left: '10%', width: '60vw', height: '60vw',
+        background: PINK, opacity: 0.1, filter: 'blur(120px)', borderRadius: '50%',
+      }} />
+      <div className="absolute pointer-events-none" style={{
+        bottom: '-10%', right: '10%', width: '60vw', height: '60vw',
+        background: BLUE, opacity: 0.1, filter: 'blur(120px)', borderRadius: '50%',
+      }} />
 
-      {/* Corner ornaments */}
-      {['top-4 left-4', 'top-4 right-4 rotate-90', 'bottom-4 left-4 -rotate-90', 'bottom-4 right-4 rotate-180'].map((pos) => (
-        <svg key={pos} className={`absolute ${pos} w-8 h-8 pointer-events-none`} viewBox="0 0 32 32" fill="none" aria-hidden>
-          <path d="M2 2 L14 2 L14 8 M2 2 L2 14 L8 14" stroke="rgba(201,168,76,0.5)" strokeWidth="1" />
-        </svg>
-      ))}
+      {/* Outer border */}
+      <div className="absolute inset-4 pointer-events-none" style={{ border: `2px solid ${YELLOW}`, opacity: 0.55 }} />
+      {/* Inner border */}
+      <div className="absolute inset-6 pointer-events-none" style={{ border: `1px solid ${PINK}`, opacity: 0.25 }} />
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-10 py-20 gap-8">
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-10 py-16 gap-7">
 
-        {/* Top star */}
-        <MoroccanStar size={32} color="rgba(201,168,76,0.55)" />
+        {/* Top starbursts */}
+        <div className="flex items-center gap-3">
+          {([PINK, BLUE, YELLOW, BLUE, PINK] as const).map((c, i) => (
+            <Starburst key={i} size={i === 2 ? 28 : 16} color={c} />
+          ))}
+        </div>
 
         {/* Eyebrow */}
         <p style={{
-          fontFamily: 'var(--font-montserrat)',
-          color: 'rgba(201,168,76,0.6)',
-          letterSpacing: '0.45em',
-          fontSize: '0.6rem',
-          fontWeight: 200,
+          fontFamily: 'var(--font-boogaloo)',
+          color: BLUE,
+          letterSpacing: '0.4em',
+          fontSize: '0.85rem',
         }}>
           YOU ARE INVITED
         </p>
 
-        {/* Title */}
-        <h1 style={{
-          fontFamily: 'var(--font-cormorant)',
-          fontSize: 'clamp(4rem, 13vw, 9.5rem)',
-          fontStyle: 'italic',
-          fontWeight: 300,
-          color: '#F5E6C8',
-          lineHeight: 1,
-          letterSpacing: '-0.01em',
-        }}>
-          PiriPiri Habibi
-        </h1>
+        {/* Main title */}
+        <div className="flex flex-col items-center leading-none">
+          <h1 style={{
+            fontFamily: 'var(--font-righteous)',
+            fontSize: 'clamp(4rem, 15vw, 10.5rem)',
+            color: PINK,
+            lineHeight: 0.92,
+            letterSpacing: '-0.01em',
+          }}>
+            PIRIPIRI
+          </h1>
+          <h1 style={{
+            fontFamily: 'var(--font-righteous)',
+            fontSize: 'clamp(4rem, 15vw, 10.5rem)',
+            color: BLUE,
+            lineHeight: 0.92,
+            letterSpacing: '-0.01em',
+          }}>
+            HABIBI
+          </h1>
+        </div>
 
-        {/* Divider */}
-        <div className="flex items-center gap-4 w-full max-w-sm">
-          <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(201,168,76,0.4))' }} />
-          <MoroccanStar size={14} color="rgba(201,168,76,0.65)" />
-          <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to left, transparent, rgba(201,168,76,0.4))' }} />
+        {/* Yellow divider */}
+        <div className="flex items-center gap-3 w-full max-w-xs">
+          <div style={{ flex: 1, height: '2px', background: YELLOW, opacity: 0.55 }} />
+          <Starburst size={30} color={YELLOW} />
+          <div style={{ flex: 1, height: '2px', background: YELLOW, opacity: 0.55 }} />
         </div>
 
         {/* Date */}
         <p style={{
-          fontFamily: 'var(--font-cormorant)',
-          fontSize: 'clamp(1.6rem, 4.5vw, 2.8rem)',
-          fontWeight: 300,
-          color: '#C9A84C',
-          letterSpacing: '0.2em',
+          fontFamily: 'var(--font-righteous)',
+          fontSize: 'clamp(1.5rem, 5vw, 2.8rem)',
+          color: YELLOW,
+          letterSpacing: '0.12em',
         }}>
           26 · 9 · 2026
         </p>
 
         {/* Location */}
         <p style={{
-          fontFamily: 'var(--font-montserrat)',
-          fontSize: '0.65rem',
-          fontWeight: 200,
-          color: 'rgba(245,230,200,0.55)',
-          letterSpacing: '0.38em',
-          marginTop: '-1rem',
+          fontFamily: 'var(--font-boogaloo)',
+          fontSize: '1rem',
+          color: PINK,
+          letterSpacing: '0.28em',
+          marginTop: '-0.75rem',
         }}>
           MARRAKECH, MOROCCO
         </p>
 
         {/* Countdown */}
         {time.mounted && (
-          <>
-            <div className="flex gap-8 sm:gap-12 mt-2">
-              {([
-                { value: time.days, label: 'DAYS' },
-                { value: time.hours, label: 'HRS' },
-                { value: time.minutes, label: 'MIN' },
-                { value: time.seconds, label: 'SEC' },
-              ] as const).map(({ value, label }) => (
-                <div key={label} className="flex flex-col items-center gap-2">
+          <div className="flex gap-5 sm:gap-8 mt-2">
+            {([
+              { value: time.days,    label: 'DAYS', color: PINK   },
+              { value: time.hours,   label: 'HRS',  color: BLUE   },
+              { value: time.minutes, label: 'MIN',  color: YELLOW },
+              { value: time.seconds, label: 'SEC',  color: PINK   },
+            ] as const).map(({ value, label, color }) => (
+              <div key={label} className="flex flex-col items-center gap-2">
+                <div style={{ border: `2px solid ${color}`, padding: '0.35rem 0.7rem', minWidth: '3.2rem', textAlign: 'center' }}>
                   <span style={{
-                    fontFamily: 'var(--font-cormorant)',
-                    fontSize: 'clamp(2.2rem, 6vw, 3.8rem)',
-                    fontWeight: 300,
-                    color: '#F5E6C8',
+                    fontFamily: 'var(--font-righteous)',
+                    fontSize: 'clamp(2rem, 5.5vw, 3.2rem)',
+                    color,
                     lineHeight: 1,
-                    minWidth: '2ch',
-                    textAlign: 'center',
+                    display: 'block',
                   }}>
                     {pad(value)}
                   </span>
-                  <span style={{
-                    fontFamily: 'var(--font-montserrat)',
-                    fontSize: '0.5rem',
-                    fontWeight: 300,
-                    color: 'rgba(201,168,76,0.55)',
-                    letterSpacing: '0.2em',
-                  }}>
-                    {label}
-                  </span>
                 </div>
-              ))}
-            </div>
-          </>
+                <span style={{
+                  fontFamily: 'var(--font-boogaloo)',
+                  fontSize: '0.7rem',
+                  color,
+                  letterSpacing: '0.18em',
+                  opacity: 0.8,
+                }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
         )}
 
-        {/* Bottom ornament */}
-        <MoroccanStar size={20} color="rgba(201,168,76,0.3)" />
+        {/* Bottom starbursts */}
+        <div className="flex items-center gap-3 mt-1">
+          {([YELLOW, PINK, BLUE, PINK, YELLOW] as const).map((c, i) => (
+            <Starburst key={i} size={i === 2 ? 28 : 16} color={c} />
+          ))}
+        </div>
+
       </div>
     </div>
   );
